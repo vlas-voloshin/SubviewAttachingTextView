@@ -1,5 +1,7 @@
 # SubviewAttachingTextView
 
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![CocoaPods](https://img.shields.io/cocoapods/v/SubviewAttachingTextView.svg?maxAge=604800)]() [![CocoaPods](https://img.shields.io/cocoapods/p/SubviewAttachingTextView.svg?maxAge=2592000)]() [![CocoaPods](https://img.shields.io/cocoapods/l/SubviewAttachingTextView.svg?maxAge=2592000)]()
+
 `SubviewAttachingTextView` is a `UITextView` subclass that allows embedding subviews in its attributed text as text attachments. The library also provides a `SubviewAttachingTextViewBehavior` class that allows compositing the attachment behavior in existing `UITextView` subclasses.
 
 To see `SubviewAttachingTextView` in action, clone or download this repository and check out `Example.playground`.
