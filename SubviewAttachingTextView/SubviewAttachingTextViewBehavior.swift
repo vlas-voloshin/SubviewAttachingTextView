@@ -10,7 +10,7 @@ import UIKit
 
 /**
  Component class managing a text view behaviour that tracks all text attachments of SubviewTextAttachment class, automatically inserts/removes their views as text view subviews, and updates their layout according to the text view's layout manager.
- To adopt this behavior in a custom text view, create an instance of this class and assign self to its `textView` property. The behavior class will automatically assign itself as the text view's layout manager and text storage delegate and will start tracking attachments.
+ - Note: Follow the implementation of `SubviewAttachingTextView` for an example of adopting this behavior in your custom text view subclass.
  */
 @objc(VVSubviewAttachingTextViewBehavior)
 open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, NSTextStorageDelegate {

@@ -32,11 +32,13 @@ To see `SubviewAttachingTextView` in action, clone or download this repository a
 
 ### CocoaPods
 
-Add the following line to your `Podfile` and run `pod install`:
+1. Add the following line to your `Podfile`:
 
-```
-pod 'SubviewAttachingTextView'
-```
+	```
+	pod 'SubviewAttachingTextView'
+	```
+	
+2. Execute `pod install`.
 
 ### Manual
 
@@ -57,9 +59,11 @@ Simply change the class of `UITextView` you use to `SubviewAttachingTextView` (i
 
 You can easily integrate `SubviewAttachingTextViewBehavior` class into your custom `UITextView` subclass by following the implementation of `SubviewAttachingTextView`:
 
-- In both `init(frame:, textContainer:)` and `init?(coder:)` initializers, create a `SubviewAttachingTextViewBehavior` object (`VVSubviewAttachingTextViewBehavior` in Objective-C), store it in your text view instance, and assign it to the text view's `layoutManager.delegate` and `textStorage.delegate`.
+1. In both `init(frame:, textContainer:)` and `init?(coder:)` initializers, create a `SubviewAttachingTextViewBehavior` object (`VVSubviewAttachingTextViewBehavior` in Objective-C), store it in your text view instance.
+1. Assign your text view to the behavior's `textView` property. It's a weak property, so this won't create a retain cycle.
+1. Assing the behavior object to the text view's `layoutManager.delegate` and `textStorage.delegate`. This will enable the automatic attachment management.
 	- If your custom text view already needs a different object to be its layout manager's or text storage's delegate, you can manually proxy the calls to `layoutManager(_:, didCompleteLayoutFor:, atEnd:)` and `textStorage(_:, didProcessEditing:, range:, changeInLength:)` delegate methods, but keep in mind that `SubviewAttachingTextViewBehavior` might require more methods in future.
-- Override the setter of `textContainerInset` property of your text view and make it call `layoutAttachedSubviews()` method of the attachment behavior. This ensures that the layout of attachments is updated when container insets are changed.
+1. Override the setter of `textContainerInset` property of your text view and make it call `layoutAttachedSubviews()` method of the attachment behavior. This ensures that the layout of attachments is updated when container insets are changed.
 
 ### Attaching subviews
 
@@ -70,7 +74,12 @@ To embed a view in your text, do the following:
 - Create an `NSAttributedString` from the attachment using its `init(attachment:)` initializer.
 - Insert the resulting string into your attributed text and assign it on the text view (either `SubviewAttachingTextView` or your custom text view embedding a `SubviewAttachingTextViewBehavior`).
 - Adding and removing the attached subviews is managed automatically. If you want to remove an embedded subview, just remove the corresponding attachment from the text view's attributed text.
-- If your text view is editable, user will also be able to delete the attachment just like any other text. However, please note that using pasteboard operations (copy, cut, paste) with subview attachments is not supported at the moment.
+- If your text view is editable, user will also be able to delete the attachment just like any other text.
+
+## Limitations
+
+- Using pasteboard operations (copy, cut, paste) with subview attachments in editable text views is not supported at the moment.
+- Text layout is not automatically updated if the attached view's intrinsic size changes. At the moment, to change the size of an attached subview, the layout manager needs to be notified to invalidate layout and display for the corresponding character range, or the attachment needs to be removed from the text attributes and then added back.
 
 ## License
 
