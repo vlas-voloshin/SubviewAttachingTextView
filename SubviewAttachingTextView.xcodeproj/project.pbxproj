@@ -311,6 +311,7 @@
 				7D2DA4CD1E3DF239004F2DAA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

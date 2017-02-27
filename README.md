@@ -4,7 +4,7 @@
 
 `SubviewAttachingTextView` is a `UITextView` subclass that allows embedding subviews in its attributed text as text attachments. The library also provides a `SubviewAttachingTextViewBehavior` class that allows compositing the attachment behavior in existing `UITextView` subclasses.
 
-To see `SubviewAttachingTextView` in action, clone or download this repository and check out `Example.playground`.
+To see `SubviewAttachingTextView` in action, clone or download this repository and check out `Example.playground` inside `SubviewAttachingTextView.xcworkspace`.
 
 <img src="screenshot.gif" alt="Screenshot" width="320">
 

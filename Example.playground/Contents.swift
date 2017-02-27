@@ -4,6 +4,8 @@
 */
 
 import UIKit
+import SubviewAttachingTextView
+
 import WebKit
 import PlaygroundSupport
 
