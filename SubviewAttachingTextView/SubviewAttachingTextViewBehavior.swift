@@ -93,8 +93,16 @@ open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, 
             let glyphRange = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
             let glyphBounds = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
 
-            let convertedBounds = textView.convertRectFromTextContainer(glyphBounds)
-            attachment.subview.frame = convertedBounds.integral(withScaleFactor: scaleFactor)
+            let isGlyphRangeValid = glyphRange.length == 1
+            let isGlyphBoundsValid = glyphBounds.width > 0.0 && glyphBounds.height > 0.0
+            
+            if isGlyphRangeValid && isGlyphBoundsValid {
+                let convertedBounds = textView.convertRectFromTextContainer(glyphBounds)
+                attachment.subview.frame = convertedBounds.integral(withScaleFactor: scaleFactor)
+                attachment.subview.isHidden = false
+            } else {
+                attachment.subview.isHidden = true
+            }
         }
     }
 
