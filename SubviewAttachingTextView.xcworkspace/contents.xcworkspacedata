@@ -5,6 +5,9 @@
       location = "group:SubviewAttachingTextView.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:/Users/vlas/Projects/SubviewAttachingTextView/TextViewExample.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Example.playground">
    </FileRef>
 </Workspace>
