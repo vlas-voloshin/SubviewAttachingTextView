@@ -46,6 +46,7 @@ imageView.addGestureRecognizer(gestureRecognizer)
 // Create an activity indicator view
 let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 spinner.color = .black
+spinner.hidesWhenStopped = false
 spinner.startAnimating()
 
 // Create a text field
