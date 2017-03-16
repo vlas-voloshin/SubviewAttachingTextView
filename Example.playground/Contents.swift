@@ -63,12 +63,12 @@ let textView = SubviewAttachingTextView(frame: CGRect(x: 0, y: 0, width: 320, he
 // Add attachments to the string and set it on the text view
 // This example avoids evaluating the attachments or attributed strings with attachments in the Playground because Xcode crashes trying to decode attachment objects
 textView.attributedText = text
-    .insertingAttachment(SubviewTextAttachment(subview: imageView, size: CGSize(width: 256, height: 256)), at: 100, with: centerParagraphStyle)
-    .insertingAttachment(SubviewTextAttachment(subview: spinner), at: 200)
-    .insertingAttachment(SubviewTextAttachment(subview: UISwitch()), at: 300)
-    .insertingAttachment(SubviewTextAttachment(subview: textField, size: CGSize(width: 200, height: 44)), at: 400, with: leftParagraphStyle)
-    .insertingAttachment(SubviewTextAttachment(subview: UIDatePicker()), at: 500, with: centerParagraphStyle)
-    .insertingAttachment(SubviewTextAttachment(subview: webView), at: 600, with: centerParagraphStyle)
+    .insertingAttachment(SubviewTextAttachment(view: imageView, size: CGSize(width: 256, height: 256)), at: 100, with: centerParagraphStyle)
+    .insertingAttachment(SubviewTextAttachment(view: spinner), at: 200)
+    .insertingAttachment(SubviewTextAttachment(view: UISwitch()), at: 300)
+    .insertingAttachment(SubviewTextAttachment(view: textField, size: CGSize(width: 200, height: 44)), at: 400, with: leftParagraphStyle)
+    .insertingAttachment(SubviewTextAttachment(view: UIDatePicker()), at: 500, with: centerParagraphStyle)
+    .insertingAttachment(SubviewTextAttachment(view: webView), at: 600, with: centerParagraphStyle)
 
 
 // Run the playground indefinitely with the text view as the live view

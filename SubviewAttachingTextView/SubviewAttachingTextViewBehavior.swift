@@ -29,7 +29,10 @@ open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, 
 
     // MARK: Subview tracking
 
-    private var attachedSubviews = Set<UIView>()
+    private let attachedViews = NSMapTable<TextAttachedViewProvider, UIView>.strongToStrongObjects()
+    private var attachedProviders: Array<TextAttachedViewProvider> {
+        return Array(self.attachedViews.keyEnumerator()) as! Array<TextAttachedViewProvider>
+    }
 
     /**
      Adds attached views as subviews and removes subviews that are no longer attached. This method is called automatically when text view's text attributes change. Calling this method does not automatically perform a layout of attached subviews.
@@ -39,33 +42,37 @@ open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, 
             return
         }
 
-        // Collect all views from SubviewTextAttachment type attachments
-        let attachmentSubviews = Set(
-            textView.textStorage.subviewAttachmentRanges.map { $0.attachment.subview }
-        )
+        // Collect all SubviewTextAttachment attachments
+        let subviewAttachments = textView.textStorage.subviewAttachmentRanges.map { $0.attachment }
 
-        // Remove views that are no longer attached
-        let removedSubviews = self.attachedSubviews.subtracting(attachmentSubviews)
-        for view in removedSubviews {
-            view.removeFromSuperview()
+        // Remove views whose providers are no longer attached
+        for provider in self.attachedProviders {
+            if (subviewAttachments.contains { $0.viewProvider === provider } == false) {
+                self.attachedViews.object(forKey: provider)?.removeFromSuperview()
+                self.attachedViews.removeObject(forKey: provider)
+            }
         }
 
         // Insert views that became attached
-        let addedSubviews = attachmentSubviews.subtracting(self.attachedSubviews)
-        for view in addedSubviews {
+        let attachmentsToAdd = subviewAttachments.filter {
+            self.attachedViews.object(forKey: $0.viewProvider) == nil
+        }
+        for attachment in attachmentsToAdd {
+            let provider = attachment.viewProvider
+            let view = provider.instantiateView(for: attachment, in: self)
             view.translatesAutoresizingMaskIntoConstraints = true
             view.autoresizingMask = [ ]
-            textView.addSubview(view)
-        }
 
-        self.attachedSubviews = attachmentSubviews
+            textView.addSubview(view)
+            self.attachedViews.setObject(view, forKey: provider)
+        }
     }
 
     private func removeAttachedSubviews() {
-        for view in self.attachedSubviews {
-            view.removeFromSuperview()
+        for provider in self.attachedProviders {
+            self.attachedViews.object(forKey: provider)?.removeFromSuperview()
         }
-        self.attachedSubviews.removeAll()
+        self.attachedViews.removeAllObjects()
     }
 
     // MARK: Layout
@@ -85,8 +92,12 @@ open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, 
         // For each attached subview, find its associated attachment and position it according to its text layout
         let attachmentRanges = textView.textStorage.subviewAttachmentRanges
         for (attachment, range) in attachmentRanges {
-            // Skip attachment subviews which are not text view's subviews (yet or already)
-            guard attachment.subview.superview === textView else {
+            guard let view = self.attachedViews.object(forKey: attachment.viewProvider) else {
+                // A view for this provider is not attached yet??
+                continue
+            }
+            guard view.superview === textView else {
+                // Skip views which are not inside the text view for some reason
                 continue
             }
 
@@ -98,10 +109,10 @@ open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, 
             
             if isGlyphRangeValid && isGlyphBoundsValid {
                 let convertedBounds = textView.convertRectFromTextContainer(glyphBounds)
-                attachment.subview.frame = convertedBounds.integral(withScaleFactor: scaleFactor)
-                attachment.subview.isHidden = false
+                view.frame = convertedBounds.integral(withScaleFactor: scaleFactor)
+                view.isHidden = false
             } else {
-                attachment.subview.isHidden = true
+                view.isHidden = true
             }
         }
     }
