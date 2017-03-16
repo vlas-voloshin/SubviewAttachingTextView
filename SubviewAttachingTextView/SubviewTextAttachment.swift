@@ -34,21 +34,8 @@ open class SubviewTextAttachment: NSTextAttachment {
 
     // MARK: NSCoding
 
-    private static let subviewCodingKey = "subview"
-
     public required init?(coder aDecoder: NSCoder) {
-        if let subview = aDecoder.decodeObject(of: UIView.self, forKey: SubviewTextAttachment.subviewCodingKey) {
-            self.subview = subview
-        } else {
-            return nil
-        }
-
-        super.init(coder: aDecoder)
-    }
-
-    open override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-        aCoder.encode(self.subview, forKey: SubviewTextAttachment.subviewCodingKey)
+        fatalError("SubviewTextAttachment cannot be decoded.")
     }
 
 }
