@@ -106,13 +106,15 @@ open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, 
 
             let isGlyphRangeValid = glyphRange.length == 1
             let isGlyphBoundsValid = glyphBounds.width > 0.0 && glyphBounds.height > 0.0
-            
-            if isGlyphRangeValid && isGlyphBoundsValid {
-                let convertedBounds = textView.convertRectFromTextContainer(glyphBounds)
-                view.frame = convertedBounds.integral(withScaleFactor: scaleFactor)
-                view.isHidden = false
-            } else {
-                view.isHidden = true
+
+            UIView.performWithoutAnimation {
+                if isGlyphRangeValid && isGlyphBoundsValid {
+                    let convertedBounds = textView.convertRectFromTextContainer(glyphBounds)
+                    view.frame = convertedBounds.integral(withScaleFactor: scaleFactor)
+                    view.isHidden = false
+                } else {
+                    view.isHidden = true
+                }
             }
         }
     }

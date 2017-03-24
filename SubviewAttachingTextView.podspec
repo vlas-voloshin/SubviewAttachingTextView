@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SubviewAttachingTextView"
-  s.version      = "1.2.0"
+  s.version      = "1.2.1"
   s.summary      = "UITextView behavior and subclass that allow embedding subviews as attachments."
   s.homepage     = "https://github.com/vlas-voloshin/SubviewAttachingTextView"
   s.license      = "MIT"
