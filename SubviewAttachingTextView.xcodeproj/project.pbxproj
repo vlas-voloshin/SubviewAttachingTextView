@@ -11,6 +11,7 @@
 		7D2DA4D11E3DF28A004F2DAA /* SubviewAttachingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2DA4CE1E3DF28A004F2DAA /* SubviewAttachingTextView.swift */; };
 		7D2DA4D21E3DF28A004F2DAA /* SubviewAttachingTextViewBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2DA4CF1E3DF28A004F2DAA /* SubviewAttachingTextViewBehavior.swift */; };
 		7D2DA4D31E3DF28A004F2DAA /* SubviewTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2DA4D01E3DF28A004F2DAA /* SubviewTextAttachment.swift */; };
+		7D44C0DC1E8574000022FFA4 /* TextAttachedViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D44C0DB1E8574000022FFA4 /* TextAttachedViewProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		7D2DA4CE1E3DF28A004F2DAA /* SubviewAttachingTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubviewAttachingTextView.swift; sourceTree = "<group>"; };
 		7D2DA4CF1E3DF28A004F2DAA /* SubviewAttachingTextViewBehavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubviewAttachingTextViewBehavior.swift; sourceTree = "<group>"; };
 		7D2DA4D01E3DF28A004F2DAA /* SubviewTextAttachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubviewTextAttachment.swift; sourceTree = "<group>"; };
+		7D44C0DB1E8574000022FFA4 /* TextAttachedViewProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAttachedViewProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 				7D2DA4CE1E3DF28A004F2DAA /* SubviewAttachingTextView.swift */,
 				7D2DA4CF1E3DF28A004F2DAA /* SubviewAttachingTextViewBehavior.swift */,
 				7D2DA4D01E3DF28A004F2DAA /* SubviewTextAttachment.swift */,
+				7D44C0DB1E8574000022FFA4 /* TextAttachedViewProvider.swift */,
 				7D2DA4C61E3DF239004F2DAA /* SubviewAttachingTextView.h */,
 				7D2DA4C71E3DF239004F2DAA /* Info.plist */,
 			);
@@ -143,6 +146,7 @@
 			files = (
 				7D2DA4D11E3DF28A004F2DAA /* SubviewAttachingTextView.swift in Sources */,
 				7D2DA4D31E3DF28A004F2DAA /* SubviewTextAttachment.swift in Sources */,
+				7D44C0DC1E8574000022FFA4 /* TextAttachedViewProvider.swift in Sources */,
 				7D2DA4D21E3DF28A004F2DAA /* SubviewAttachingTextViewBehavior.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

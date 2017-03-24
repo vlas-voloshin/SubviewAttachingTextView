@@ -9,16 +9,6 @@
 import UIKit
 
 /**
- Describes a protocol that provides views inserted as subviews into text views that render a `SubviewTextAttachment`.
- - Note: Implementing this protocol is encouraged over providing a single view in a `SubviewTextAttachment`, because it allows attributed strings with subview attachments to be rendered in multiple text views at the same time: each text view would get its own subview that corresponds to the attachment.
- */
-@objc(VVTextAttachedViewProvider)
-public protocol TextAttachedViewProvider: class {
-    @objc(instantiateViewForAttachment:inBehavior:)
-    func instantiateView(for attachment: SubviewTextAttachment, in behavior: SubviewAttachingTextViewBehavior) -> UIView
-}
-
-/**
  Describes a custom text attachment object containing a view. SubviewAttachingTextViewBehavior tracks attachments of this class and automatically manages adding and removing subviews in its text view.
  */
 @objc(VVSubviewTextAttachment)
@@ -27,12 +17,11 @@ open class SubviewTextAttachment: NSTextAttachment {
     public let viewProvider: TextAttachedViewProvider
 
     /**
-     Initialize the attachment with a view provider and an explicit size.
+     Initialize the attachment with a view provider.
      */
-    public init(viewProvider: TextAttachedViewProvider, size: CGSize) {
+    public init(viewProvider: TextAttachedViewProvider) {
         self.viewProvider = viewProvider
         super.init(data: nil, ofType: nil)
-        self.bounds = CGRect(origin: .zero, size: size)
     }
 
     /**
@@ -41,7 +30,8 @@ open class SubviewTextAttachment: NSTextAttachment {
      */
     public convenience init(view: UIView, size: CGSize) {
         let provider = DirectTextAttachedViewProvider(view: view)
-        self.init(viewProvider: provider, size: size)
+        self.init(viewProvider: provider)
+        self.bounds = CGRect(origin: .zero, size: size)
     }
 
     /**
@@ -51,6 +41,12 @@ open class SubviewTextAttachment: NSTextAttachment {
      */
     public convenience init(view: UIView) {
         self.init(view: view, size: view.textAttachmentFittingSize)
+    }
+
+    // MARK: - NSTextAttachmentContainer
+
+    open override func attachmentBounds(for textContainer: NSTextContainer?, proposedLineFragment lineFrag: CGRect, glyphPosition position: CGPoint, characterIndex charIndex: Int) -> CGRect {
+        return self.viewProvider.bounds(for: self, textContainer: textContainer, proposedLineFragment: lineFrag, glyphPosition: position)
     }
 
     // MARK: NSCoding
@@ -73,6 +69,10 @@ final class DirectTextAttachedViewProvider: TextAttachedViewProvider {
 
     func instantiateView(for attachment: SubviewTextAttachment, in behavior: SubviewAttachingTextViewBehavior) -> UIView {
         return self.view
+    }
+
+    func bounds(for attachment: SubviewTextAttachment, textContainer: NSTextContainer?, proposedLineFragment lineFrag: CGRect, glyphPosition position: CGPoint) -> CGRect {
+        return attachment.bounds
     }
 
 }
