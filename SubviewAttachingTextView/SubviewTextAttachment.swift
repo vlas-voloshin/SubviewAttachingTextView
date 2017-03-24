@@ -14,6 +14,7 @@ import UIKit
  */
 @objc(VVTextAttachedViewProvider)
 public protocol TextAttachedViewProvider: class {
+    @objc(instantiateViewForAttachment:inBehavior:)
     func instantiateView(for attachment: SubviewTextAttachment, in behavior: SubviewAttachingTextViewBehavior) -> UIView
 }
 
