@@ -86,7 +86,6 @@ open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, 
         }
 
         let layoutManager = textView.layoutManager
-        let textContainer = textView.textContainer
         let scaleFactor = textView.window?.screen.scale ?? UIScreen.main.scale
 
         // For each attached subview, find its associated attachment and position it according to its text layout
@@ -100,23 +99,44 @@ open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, 
                 // Skip views which are not inside the text view for some reason
                 continue
             }
+            guard let attachmentRect = SubviewAttachingTextViewBehavior.boundingRect(forAttachmentCharacterAt: range.location, layoutManager: layoutManager) else {
+                // Can't determine the rectangle for the attachment: just hide it
+                view.isHidden = true
+                continue
+            }
 
-            let glyphRange = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
-            let glyphBounds = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
-
-            let isGlyphRangeValid = glyphRange.length == 1
-            let isGlyphBoundsValid = glyphBounds.width > 0.0 && glyphBounds.height > 0.0
+            let convertedRect = textView.convertRectFromTextContainer(attachmentRect)
+            let integralRect = CGRect(origin: convertedRect.origin.integral(withScaleFactor: scaleFactor),
+                                      size: convertedRect.size)
 
             UIView.performWithoutAnimation {
-                if isGlyphRangeValid && isGlyphBoundsValid {
-                    let convertedBounds = textView.convertRectFromTextContainer(glyphBounds)
-                    view.frame = convertedBounds.integral(withScaleFactor: scaleFactor)
-                    view.isHidden = false
-                } else {
-                    view.isHidden = true
-                }
+                view.frame = integralRect
+                view.isHidden = false
             }
         }
+    }
+
+    private static func boundingRect(forAttachmentCharacterAt characterIndex: Int, layoutManager: NSLayoutManager) -> CGRect? {
+        let glyphRange = layoutManager.glyphRange(forCharacterRange: NSMakeRange(characterIndex, 1), actualCharacterRange: nil)
+        let glyphIndex = glyphRange.location
+        guard glyphIndex != NSNotFound && glyphRange.length == 1 else {
+            return nil
+        }
+
+        let attachmentSize = layoutManager.attachmentSize(forGlyphAt: glyphIndex)
+        guard attachmentSize.width > 0.0 && attachmentSize.height > 0.0 else {
+            return nil
+        }
+
+        let lineFragmentRect = layoutManager.lineFragmentRect(forGlyphAt: glyphIndex, effectiveRange: nil)
+        let glyphLocation = layoutManager.location(forGlyphAt: glyphIndex)
+        guard lineFragmentRect.width > 0.0 && lineFragmentRect.height > 0.0 else {
+            return nil
+        }
+
+        return CGRect(origin: CGPoint(x: lineFragmentRect.minX + glyphLocation.x,
+                                      y: lineFragmentRect.minY + glyphLocation.y - attachmentSize.height),
+                      size: attachmentSize)
     }
 
     // MARK: NSLayoutManagerDelegate
@@ -167,23 +187,15 @@ public extension UITextView {
     
 }
 
-public extension CGRect {
+private extension CGPoint {
 
-    func multiplied(by amount: CGFloat) -> CGRect {
-        return CGRect(x: self.origin.x * amount,
-                      y: self.origin.y * amount,
-                      width: self.size.width * amount,
-                      height: self.size.height * amount)
-    }
-
-    func integral(withScaleFactor scaleFactor: CGFloat) -> CGRect {
+    func integral(withScaleFactor scaleFactor: CGFloat) -> CGPoint {
         guard scaleFactor > 0.0 else {
             return self
         }
 
-        return self.multiplied(by: scaleFactor)
-            .integral
-            .multiplied(by: 1.0 / scaleFactor)
+        return CGPoint(x: round(self.x * scaleFactor) / scaleFactor,
+                       y: round(self.y * scaleFactor) / scaleFactor)
     }
 
 }
