@@ -22,7 +22,7 @@ class TapHandler: NSObject {
 // Load lorem ipsum from a file and create a long attributed string out of it
 let loremIpsum = try! String(contentsOf: #fileLiteral(resourceName: "lorem-ipsum.txt"))
 let repeatedLorem = String(repeating: loremIpsum, count: 3)
-let text = NSAttributedString(string: repeatedLorem, attributes: [ NSFontAttributeName : UIFont.systemFont(ofSize: 14) ])
+let text = NSAttributedString(string: repeatedLorem, attributes: [ .font : UIFont.systemFont(ofSize: 14) ])
 
 // Make paragraph styles for attachments
 let centerParagraphStyle = NSMutableParagraphStyle()

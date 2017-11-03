@@ -15,6 +15,7 @@ import UIKit
 @objc(VVSubviewAttachingTextViewBehavior)
 open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, NSTextStorageDelegate {
 
+    @objc
     open weak var textView: UITextView? {
         willSet {
             // Remove all managed subviews from the text view being disconnected
@@ -37,6 +38,7 @@ open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, 
     /**
      Adds attached views as subviews and removes subviews that are no longer attached. This method is called automatically when text view's text attributes change. Calling this method does not automatically perform a layout of attached subviews.
      */
+    @objc
     open func updateAttachedSubviews() {
         guard let textView = self.textView else {
             return
@@ -80,6 +82,7 @@ open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, 
     /**
      Lays out all attached subviews according to the layout manager. This method is called automatically when layout manager finishes updating its layout.
      */
+    @objc
     open func layoutAttachedSubviews() {
         guard let textView = self.textView else {
             return
@@ -206,7 +209,7 @@ private extension NSAttributedString {
         var ranges = [(SubviewTextAttachment, NSRange)]()
 
         let fullRange = NSRange(location: 0, length: self.length)
-        self.enumerateAttribute(NSAttachmentAttributeName, in: fullRange) { value, range, _ in
+        self.enumerateAttribute(NSAttributedStringKey.attachment, in: fullRange) { value, range, _ in
             if let attachment = value as? SubviewTextAttachment {
                 ranges.append((attachment, range))
             }
