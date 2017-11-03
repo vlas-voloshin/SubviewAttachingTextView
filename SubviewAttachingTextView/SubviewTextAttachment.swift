@@ -14,11 +14,13 @@ import UIKit
 @objc(VVSubviewTextAttachment)
 open class SubviewTextAttachment: NSTextAttachment {
 
+    @objc
     public let viewProvider: TextAttachedViewProvider
 
     /**
      Initialize the attachment with a view provider.
      */
+    @objc
     public init(viewProvider: TextAttachedViewProvider) {
         self.viewProvider = viewProvider
         super.init(data: nil, ofType: nil)
@@ -28,6 +30,7 @@ open class SubviewTextAttachment: NSTextAttachment {
      Initialize the attachment with a view and an explicit size.
      - Warning: If an attributed string that includes the returned attachment is used in more than one text view at a time, the behavior is not defined.
      */
+    @objc
     public convenience init(view: UIView, size: CGSize) {
         let provider = DirectTextAttachedViewProvider(view: view)
         self.init(viewProvider: provider)
@@ -39,6 +42,7 @@ open class SubviewTextAttachment: NSTextAttachment {
      - Note: If the view does not define a fitting size, its current bounds size is used.
      - Warning: If an attributed string that includes the returned attachment is used in more than one text view at a time, the behavior is not defined.
      */
+    @objc
     public convenience init(view: UIView) {
         self.init(view: view, size: view.textAttachmentFittingSize)
     }
@@ -59,7 +63,7 @@ open class SubviewTextAttachment: NSTextAttachment {
 
 // MARK: - Internal view provider
 
-final class DirectTextAttachedViewProvider: TextAttachedViewProvider {
+final internal class DirectTextAttachedViewProvider: TextAttachedViewProvider {
 
     let view: UIView
 

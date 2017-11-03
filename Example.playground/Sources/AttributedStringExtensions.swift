@@ -27,7 +27,7 @@ public extension NSAttributedString {
         return copy.copy() as! NSAttributedString
     }
 
-    func addingAttributes(_ attributes: [String : Any]) -> NSAttributedString {
+    func addingAttributes(_ attributes: [NSAttributedStringKey : Any]) -> NSAttributedString {
         let copy = self.mutableCopy() as! NSMutableAttributedString
         copy.addAttributes(attributes)
 
@@ -43,7 +43,7 @@ public extension NSMutableAttributedString {
 
         if let paragraphStyle = paragraphStyle {
             let attachmentString = plainAttachmentString
-                .addingAttributes([ NSParagraphStyleAttributeName : paragraphStyle ])
+                .addingAttributes([ .paragraphStyle : paragraphStyle ])
             let separatorString = NSAttributedString(string: .paragraphSeparator)
 
             // Surround the attachment string with paragraph separators, so that the paragraph style is only applied to it
@@ -58,7 +58,7 @@ public extension NSMutableAttributedString {
         }
     }
 
-    func addAttributes(_ attributes: [String : Any]) {
+    func addAttributes(_ attributes: [NSAttributedStringKey : Any]) {
         self.addAttributes(attributes, range: NSRange(location: 0, length: self.length))
     }
 
