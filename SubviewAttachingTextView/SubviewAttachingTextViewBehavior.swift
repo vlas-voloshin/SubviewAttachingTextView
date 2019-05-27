@@ -209,7 +209,7 @@ private extension NSAttributedString {
         var ranges = [(SubviewTextAttachment, NSRange)]()
 
         let fullRange = NSRange(location: 0, length: self.length)
-        self.enumerateAttribute(NSAttributedStringKey.attachment, in: fullRange) { value, range, _ in
+        self.enumerateAttribute(NSAttributedString.Key.attachment, in: fullRange) { value, range, _ in
             if let attachment = value as? SubviewTextAttachment {
                 ranges.append((attachment, range))
             }
