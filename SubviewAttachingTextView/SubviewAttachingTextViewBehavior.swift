@@ -152,7 +152,7 @@ open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, 
 
     // MARK: NSTextStorageDelegate
 
-    public func textStorage(_ textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorageEditActions, range editedRange: NSRange, changeInLength delta: Int) {
+    public func textStorage(_ textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorage.EditActions, range editedRange: NSRange, changeInLength delta: Int) {
         if editedMask.contains(.editedAttributes) {
             self.updateAttachedSubviews()
         }
@@ -209,7 +209,7 @@ private extension NSAttributedString {
         var ranges = [(SubviewTextAttachment, NSRange)]()
 
         let fullRange = NSRange(location: 0, length: self.length)
-        self.enumerateAttribute(NSAttributedStringKey.attachment, in: fullRange) { value, range, _ in
+        self.enumerateAttribute(NSAttributedString.Key.attachment, in: fullRange) { value, range, _ in
             if let attachment = value as? SubviewTextAttachment {
                 ranges.append((attachment, range))
             }
