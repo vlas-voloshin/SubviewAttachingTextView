@@ -53,6 +53,10 @@ open class SubviewTextAttachment: NSTextAttachment {
         return self.viewProvider.bounds(for: self, textContainer: textContainer, proposedLineFragment: lineFrag, glyphPosition: position)
     }
 
+    open override func image(forBounds imageBounds: CGRect, textContainer: NSTextContainer?, characterIndex charIndex: Int) -> UIImage? {
+        return nil
+    }
+
     // MARK: NSCoding
 
     public required init?(coder aDecoder: NSCoder) {
