@@ -14,7 +14,8 @@ To see `SubviewAttachingTextView` in action, clone or download this repository a
 
 ## Requirements
 
-- Xcode 10.0+ (written in Swift 4.2).
+- Xcode 11.0+ (written in Swift 5.0).
+    - For compatibility with Swift 4.2, use version 1.4.0.
     - For compatibility with Swift 4.0, use version 1.3.0.
     - For compatibility with Swift 3.x, use version 1.2.2.
 - iOS 8.0+

@@ -44,7 +44,7 @@ let gestureRecognizer = UITapGestureRecognizer(target: handler, action: #selecto
 imageView.addGestureRecognizer(gestureRecognizer)
 
 // Create an activity indicator view
-let spinner = UIActivityIndicatorView(style: .whiteLarge)
+let spinner = UIActivityIndicatorView(style: .large)
 spinner.color = .black
 spinner.hidesWhenStopped = false
 spinner.startAnimating()
