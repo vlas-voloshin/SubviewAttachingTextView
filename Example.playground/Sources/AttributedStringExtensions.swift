@@ -27,7 +27,7 @@ public extension NSAttributedString {
         return copy.copy() as! NSAttributedString
     }
 
-    func addingAttributes(_ attributes: [NSAttributedStringKey : Any]) -> NSAttributedString {
+    func addingAttributes(_ attributes: [NSAttributedString.Key : Any]) -> NSAttributedString {
         let copy = self.mutableCopy() as! NSMutableAttributedString
         copy.addAttributes(attributes)
 
@@ -58,7 +58,7 @@ public extension NSMutableAttributedString {
         }
     }
 
-    func addAttributes(_ attributes: [NSAttributedStringKey : Any]) {
+    func addAttributes(_ attributes: [NSAttributedString.Key : Any]) {
         self.addAttributes(attributes, range: NSRange(location: 0, length: self.length))
     }
 
