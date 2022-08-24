@@ -99,7 +99,8 @@ open class SubviewAttachingTextViewBehavior: NSObject, NSLayoutManagerDelegate, 
                 continue
             }
             guard view.superview === textView else {
-                // Skip views which are not inside the text view for some reason
+                // Re-attach views which are not inside the text view for some reason
+                textView.addSubview(view)
                 continue
             }
             guard let attachmentRect = SubviewAttachingTextViewBehavior.boundingRect(forAttachmentCharacterAt: range.location, layoutManager: layoutManager) else {
